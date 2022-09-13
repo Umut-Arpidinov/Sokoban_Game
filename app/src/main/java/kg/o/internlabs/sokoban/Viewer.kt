@@ -2,13 +2,15 @@ package kg.o.internlabs.sokoban
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 class Viewer : AppCompatActivity {
+    private val controller: Controller
     private var canvas: CanvasSokoban?
     private val model: Model
 
     constructor() {
-        val controller: Controller = Controller(this)
+        controller = Controller(this)
         model = controller.getModel()
         canvas = null
 
@@ -18,8 +20,13 @@ class Viewer : AppCompatActivity {
         super.onCreate(savedInstanceState)
         canvas = CanvasSokoban(this, model)
         setContentView(canvas)
+        canvas?.setOnTouchListener(controller)
 
         println("I am viewer object")
+    }
+
+    fun showToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
 }

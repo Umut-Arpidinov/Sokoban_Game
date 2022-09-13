@@ -9,5 +9,9 @@ class Model {
 
 
     }
+    fun move(direciton: String){
+        viewer.showToast(direciton)
+
+    }
 
 }
