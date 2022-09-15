@@ -25,8 +25,10 @@ class Viewer : AppCompatActivity {
         println("I am viewer object")
     }
 
-    fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+
+    fun update() {
+        canvas?.update()
     }
+
 
 }
