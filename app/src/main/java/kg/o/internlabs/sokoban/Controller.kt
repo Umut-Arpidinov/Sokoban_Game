@@ -71,13 +71,12 @@ class Controller : View.OnTouchListener, View.OnClickListener,
 
     private fun onSwipeRight() {
         model.move("Right")
-        viewer.update()
-        println("Right")
+
     }
 
     private fun onSwipeLeft() {
         model.move("Left")
-        println("Left")
+
     }
 
     private fun onSwipeUp() {
