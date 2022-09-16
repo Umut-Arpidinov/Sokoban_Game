@@ -43,7 +43,7 @@ class Model {
                 }
             }
         }
-        arrayOfIndexes = Array(2){ IntArray(countFour){0} }
+        arrayOfIndexes = Array(2) { IntArray(countFour) { 0 } }
         for (i in 0 until arrayOfIndexes.size) {
 
             for (j in 0 until arrayOfIndexes[i].size) {
@@ -72,7 +72,6 @@ class Model {
         println()
 
 
-
     }
 
     fun move(direction: String) {
@@ -88,21 +87,20 @@ class Model {
         printDesktop()
         viewer.update()
     }
-    private fun check(){
 
-            for (j in 0 until arrayOfIndexes[0].size) {
-                    var x = arrayOfIndexes[0][j]
-                    var y = arrayOfIndexes[1][j]
-                println("${j+1}  $x  $y")
-                if(desktop[x][y] == 0){
-                    desktop[x][y] = 4
-                    return
-                }
+    private fun check() {
+
+        for (j in 0 until arrayOfIndexes[0].size) {
+            var x = arrayOfIndexes[0][j]
+            var y = arrayOfIndexes[1][j]
+            println("${j + 1}  $x  $y")
+            if (desktop[x][y] == 0) {
+                desktop[x][y] = 4
+                return
             }
-            println()
         }
-
-
+        println()
+    }
 
 
     private fun moveRight() {

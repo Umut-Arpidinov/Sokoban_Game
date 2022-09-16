@@ -51,12 +51,12 @@ class CanvasSokoban : View {
                     canvas.drawRect(rect, paint)
                 }
 
-                    if (desktop[i][j] == 4) {
-                        paint.setColor(Color.GRAY)
-                        paint.style = Paint.Style.FILL
-                        rect.set(left, top, right, bottom)
-                        rect.offset(dx, dy)
-                        canvas.drawRect(rect, paint)
+                if (desktop[i][j] == 4) {
+                    paint.setColor(Color.GRAY)
+                    paint.style = Paint.Style.FILL
+                    rect.set(left, top, right, bottom)
+                    rect.offset(dx, dy)
+                    canvas.drawRect(rect, paint)
                 } else {
 
 
