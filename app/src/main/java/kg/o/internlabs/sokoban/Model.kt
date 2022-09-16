@@ -15,7 +15,7 @@ class Model {
         desktop = arrayOf(
             intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
             intArrayOf(2, 0, 0, 0, 4, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 1, 0, 0, 0, 0, 0, 2),
+            intArrayOf(2, 0, 0, 1, 0, 3, 0, 0, 0, 2),
             intArrayOf(2, 0, 0, 0, 4, 0, 0, 0, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 4, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
@@ -104,6 +104,17 @@ class Model {
 
 
     private fun moveRight() {
+        if (desktop[indexX][indexY + 1] == 3) {
+            if (desktop[indexX][indexY + 2] == 0) {
+                desktop[indexX][indexY + 1] = 0
+                desktop[indexX][indexY + 2] = 3
+
+
+            }
+
+
+        }
+
         if (desktop[indexX][indexY + 1] == 0 || desktop[indexX][indexY + 1] == 4) {
             desktop[indexX][indexY] = 0
             indexY = indexY + 1
@@ -115,6 +126,14 @@ class Model {
     }
 
     private fun moveLeft() {
+        if (desktop[indexX][indexY - 1] == 3) {
+            if (desktop[indexX][indexY - 2] == 0) {
+                desktop[indexX][indexY - 1] = 0
+                desktop[indexX][indexY - 2] = 3
+
+            }
+
+        }
         if (desktop[indexX][indexY - 1] == 0 || desktop[indexX][indexY - 1] == 4) {
             desktop[indexX][indexY] = 0
             indexY = indexY - 1
@@ -126,6 +145,13 @@ class Model {
     }
 
     private fun moveDown() {
+        if (desktop[indexX + 1][indexY] == 3) {
+            if (desktop[indexX + 2][indexY] == 0) {
+                desktop[indexX + 1][indexY] = 0
+                desktop[indexX + 2][indexY] = 3
+
+            }
+        }
         if (desktop[indexX + 1][indexY] == 0 || desktop[indexX + 1][indexY] == 4) {
             desktop[indexX][indexY] = 0
             indexX = indexX + 1
@@ -136,6 +162,14 @@ class Model {
     }
 
     private fun moveUp() {
+        if (desktop[indexX - 1][indexY] == 3) {
+            if (desktop[indexX - 2][indexY] == 0) {
+                desktop[indexX - 1][indexY] = 0
+                desktop[indexX - 2][indexY] = 3
+
+            }
+
+        }
         if (desktop[indexX - 1][indexY] == 0 || desktop[indexX - 1][indexY] == 4) {
             desktop[indexX][indexY] = 0
             indexX = indexX - 1
