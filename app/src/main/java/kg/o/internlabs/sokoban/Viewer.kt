@@ -2,7 +2,6 @@ package kg.o.internlabs.sokoban
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 
 class Viewer : AppCompatActivity {
     private val controller: Controller

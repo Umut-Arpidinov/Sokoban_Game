@@ -5,43 +5,56 @@ class Model {
     private var indexX: Int
     private var indexY: Int
     private var desktop: Array<IntArray>
-    private var x: Int
-    private var y: Int
     private lateinit var arrayOfIndexes: Array<IntArray>
-
+    private var stateModel: Boolean
 
     constructor(viewer: Viewer) {
         this.viewer = viewer
+        indexY = 0
+        indexX = 0
         desktop = arrayOf(
             intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
-            intArrayOf(2, 0, 0, 0, 4, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 1, 0, 3, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 4, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 0, 0, 0, 4, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
+            intArrayOf(2, 0, 0, 1, 0, 0, 0, 0, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
+            intArrayOf(2, 0, 0, 3, 4, 0, 0, 0, 0, 2),
+            intArrayOf(2, 0, 0, 0, 0, 4, 0, 0, 0, 2),
+            intArrayOf(2, 0, 0, 0, 3, 0, 0, 0, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
             intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
             intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
 
 
             )
-        indexX = 2
-        indexY = 3
+
+        stateModel = true
         initialization()
-        x = 0
-        y = -10
         println("I am model object")
     }
 
+
     private fun initialization() {
         var countFour = 0
+        var countOne = 0
+        var countThree = 0
         for (i in 0 until desktop.size) {
             for (j in 0 until desktop[i].size) {
-                if (desktop[i][j] == 4) {
+                if (desktop[i][j] == 1) {
+                    countOne = countOne + 1
+                    indexX = i
+                    indexY = j
+                } else if (desktop[i][j] == 4) {
                     countFour = countFour + 1
+                } else if (desktop[i][j] == 3) {
+                    countThree = countThree + 1
+
                 }
+
             }
+        }
+        if (countOne != 1 || (countThree != countFour) || countThree <= 0 || countFour <= 0) {
+            stateModel = false
+            return
         }
         arrayOfIndexes = Array(2) { IntArray(countFour) { 0 } }
         for (i in 0 until arrayOfIndexes.size) {
@@ -62,14 +75,6 @@ class Model {
                 }
             }
         }
-        for (i in 0 until arrayOfIndexes.size) {
-
-            for (j in 0 until arrayOfIndexes[i].size) {
-                print("${arrayOfIndexes[i][j]}  ")
-            }
-            println()
-        }
-        println()
 
 
     }
@@ -192,17 +197,12 @@ class Model {
         println("---------------------------------")
     }
 
+    fun getStateModel(): Boolean {
+        return stateModel
+    }
+
     fun getDesktop(): Array<IntArray> {
         return desktop
-    }
-
-    fun getX(): Int {
-        return x
-
-    }
-
-    fun getY(): Int {
-        return y
     }
 
 
