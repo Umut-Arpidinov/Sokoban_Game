@@ -2,16 +2,20 @@ package kg.o.internlabs.sokoban
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+
 
 class Viewer : AppCompatActivity {
     private val controller: Controller
     private var canvas: CanvasSokoban?
     private val model: Model
+    private val levels: Levels
 
     constructor() {
         controller = Controller(this)
         model = controller.getModel()
         canvas = null
+        levels = Levels()
 
     }
 
@@ -20,6 +24,9 @@ class Viewer : AppCompatActivity {
         canvas = CanvasSokoban(this, model)
         setContentView(canvas)
         canvas?.setOnTouchListener(controller)
+
+
+
 
         println("I am viewer object")
     }

@@ -7,22 +7,23 @@ import android.view.View
 class CanvasSokoban : View {
     private val model: Model
     private val paint: Paint
-    private val viewer: Viewer
-    private var desktop: Array<IntArray>
     private val player: Bitmap
     private val wall: Bitmap
+    private val viewer: Viewer
     private val box: Bitmap
     private val ground: Bitmap
     private val boxOntarget: Bitmap
     private val target: Bitmap
     private val error: Bitmap
+    private var iconDirection: String
+    private var move_right: Bitmap
 
 
     constructor(viewer: Viewer, model: Model) : super(viewer) {
         this.viewer = viewer
         this.model = model
-        desktop = model.getDesktop()
         paint = Paint()
+        iconDirection = model.getIconDirection()
         println("I am CanvasSokoban")
         player = BitmapFactory.decodeResource(resources, R.drawable.player)
         wall = BitmapFactory.decodeResource(resources, R.drawable.wall)
@@ -31,6 +32,7 @@ class CanvasSokoban : View {
         ground = BitmapFactory.decodeResource(resources, R.drawable.ground)
         target = BitmapFactory.decodeResource(resources, R.drawable.target)
         error = BitmapFactory.decodeResource(resources, R.drawable.error2)
+        move_right = BitmapFactory.decodeResource(resources, R.drawable.move_right)
         setBackgroundResource(R.drawable.black_background)
 
     }
@@ -53,21 +55,17 @@ class CanvasSokoban : View {
         var y = 200
         var width = 107
         var height = 160
+        val desktop = model.getDesktop()
 
         for (i in 0 until desktop.size) {
 
             for (j in 0 until desktop[i].size) {
-                if (desktop[i][j] == 2 && desktop[i][j] - 1 == 0) {
-
-                } else {
-                    canvas.drawBitmap(ground, null, Rect(x, y, x + width, y + height), paint)
-
-                }
-
-
+                canvas.drawBitmap(ground, null, Rect(x, y, x + width, y + height), paint)
                 if (desktop[i][j] == 1) {
                     canvas.drawBitmap(player, null, Rect(x, y, x + width, y + height), paint)
+
                 }
+
                 if (desktop[i][j] == 2) {
                     canvas.drawBitmap(wall, null, Rect(x, y, x + width, y + height), paint)
                 }
@@ -86,6 +84,7 @@ class CanvasSokoban : View {
 
     }
 
+
     private fun drawError(canvas: Canvas) {
         paint.setColor(Color.RED)
         paint.textSize = 100F
@@ -101,3 +100,5 @@ class CanvasSokoban : View {
     }
 
 }
+
+

@@ -7,33 +7,24 @@ class Model {
     private var desktop: Array<IntArray>
     private lateinit var arrayOfIndexes: Array<IntArray>
     private var stateModel: Boolean
+    private var iconDirection: String
+    private var levels: Levels
 
     constructor(viewer: Viewer) {
         this.viewer = viewer
         indexY = 0
         indexX = 0
-        desktop = arrayOf(
-            intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
-            intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 1, 0, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 3, 4, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 0, 4, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 3, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
-            intArrayOf(2, 0, 0, 0, 0, 0, 0, 0, 0, 2),
-            intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
-
-
-            )
-
+        desktop = getDesktop()
+        iconDirection = "stay"
         stateModel = true
+        levels = Levels()
         initialization()
         println("I am model object")
     }
 
 
     private fun initialization() {
+        desktop = levels.nextLevel()
         var countFour = 0
         var countOne = 0
         var countThree = 0
@@ -57,14 +48,6 @@ class Model {
             return
         }
         arrayOfIndexes = Array(2) { IntArray(countFour) { 0 } }
-        for (i in 0 until arrayOfIndexes.size) {
-
-            for (j in 0 until arrayOfIndexes[i].size) {
-                print("${arrayOfIndexes[i][j]}  ")
-            }
-            println()
-        }
-        println()
         var t = 0
         for (i in 0 until desktop.size) {
             for (j in 0 until desktop[i].size) {
@@ -75,8 +58,6 @@ class Model {
                 }
             }
         }
-
-
     }
 
     fun move(direction: String) {
@@ -91,6 +72,26 @@ class Model {
         check()
         printDesktop()
         viewer.update()
+        won()
+
+
+    }
+
+    fun won() {
+        var won = true
+        for (i in 0 until arrayOfIndexes[0].size) {
+            var x = arrayOfIndexes[0][i]
+            var y = arrayOfIndexes[1][i]
+            if (desktop[x][y] != 3) {
+                won = false
+                break
+            }
+        }
+        if (won) {
+            initialization()
+            viewer.update()
+
+        }
     }
 
     private fun check() {
@@ -101,7 +102,7 @@ class Model {
             println("${j + 1}  $x  $y")
             if (desktop[x][y] == 0) {
                 desktop[x][y] = 4
-                return
+
             }
         }
         println()
@@ -110,10 +111,10 @@ class Model {
 
     private fun moveRight() {
         if (desktop[indexX][indexY + 1] == 3) {
-            if (desktop[indexX][indexY + 2] == 0) {
+            if (desktop[indexX][indexY + 2] == 0 || desktop[indexX][indexY + 2] == 4) {
                 desktop[indexX][indexY + 1] = 0
                 desktop[indexX][indexY + 2] = 3
-
+                iconDirection = "right"
 
             }
 
@@ -124,6 +125,7 @@ class Model {
             desktop[indexX][indexY] = 0
             indexY = indexY + 1
             desktop[indexX][indexY] = 1
+            iconDirection = "right"
 
         }
 
@@ -132,7 +134,7 @@ class Model {
 
     private fun moveLeft() {
         if (desktop[indexX][indexY - 1] == 3) {
-            if (desktop[indexX][indexY - 2] == 0) {
+            if (desktop[indexX][indexY - 2] == 0 || desktop[indexX][indexY - 2] == 4) {
                 desktop[indexX][indexY - 1] = 0
                 desktop[indexX][indexY - 2] = 3
 
@@ -151,7 +153,7 @@ class Model {
 
     private fun moveDown() {
         if (desktop[indexX + 1][indexY] == 3) {
-            if (desktop[indexX + 2][indexY] == 0) {
+            if (desktop[indexX + 2][indexY] == 0 || desktop[indexX + 2][indexY] == 4) {
                 desktop[indexX + 1][indexY] = 0
                 desktop[indexX + 2][indexY] = 3
 
@@ -168,7 +170,7 @@ class Model {
 
     private fun moveUp() {
         if (desktop[indexX - 1][indexY] == 3) {
-            if (desktop[indexX - 2][indexY] == 0) {
+            if (desktop[indexX - 2][indexY] == 0 || desktop[indexX - 2][indexY] == 4) {
                 desktop[indexX - 1][indexY] = 0
                 desktop[indexX - 2][indexY] = 3
 
@@ -184,6 +186,7 @@ class Model {
 
     }
 
+
     private fun printDesktop() {
         for (i in 0 until desktop.size) {
 
@@ -197,12 +200,17 @@ class Model {
         println("---------------------------------")
     }
 
+
     fun getStateModel(): Boolean {
         return stateModel
     }
 
     fun getDesktop(): Array<IntArray> {
         return desktop
+    }
+
+    fun getIconDirection(): String {
+        return iconDirection
     }
 
 
