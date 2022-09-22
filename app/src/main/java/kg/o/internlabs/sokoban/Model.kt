@@ -17,9 +17,9 @@ class Model {
         desktop = getDesktop()
         iconDirection = "stay"
         stateModel = true
-        levels = Levels()
+        levels = Levels(viewer)
         initialization()
-        println("I am model object")
+
     }
 
 
@@ -89,6 +89,7 @@ class Model {
         }
         if (won) {
             initialization()
+            viewer.showAlertDialog()
             viewer.update()
 
         }
@@ -213,5 +214,7 @@ class Model {
         return iconDirection
     }
 
-
+   fun getCurrenLevel():Int{
+       return levels.getLevel()
+   }
 }

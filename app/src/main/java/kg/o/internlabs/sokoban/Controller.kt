@@ -17,7 +17,7 @@ class Controller : View.OnTouchListener,
     constructor(viewer: Viewer) {
         this.viewer = viewer
         model = Model(viewer)
-        levels = Levels()
+        levels = Levels(viewer)
         gestureDetector = GestureDetector(this)
         println("I am controller object")
     }
@@ -85,6 +85,7 @@ class Controller : View.OnTouchListener,
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
+        viewer.update()
     }
 
 
