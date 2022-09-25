@@ -7,7 +7,8 @@ class Model {
     private var desktop: Array<IntArray>
     private lateinit var arrayOfIndexes: Array<IntArray>
     private var stateModel: Boolean
-    private var iconDirection: String
+    private var playerDirection = "stay"
+    private var boxPlace = false
     private var levels: Levels
 
     constructor(viewer: Viewer) {
@@ -15,7 +16,6 @@ class Model {
         indexY = 0
         indexX = 0
         desktop = getDesktop()
-        iconDirection = "stay"
         stateModel = true
         levels = Levels(viewer)
         initialization()
@@ -88,15 +88,14 @@ class Model {
             }
         }
         if (won) {
+            playerDirection = "stay"
             initialization()
-            viewer.showAlertDialog()
             viewer.update()
 
         }
     }
 
     private fun check() {
-
         for (j in 0 until arrayOfIndexes[0].size) {
             var x = arrayOfIndexes[0][j]
             var y = arrayOfIndexes[1][j]
@@ -115,8 +114,7 @@ class Model {
             if (desktop[indexX][indexY + 2] == 0 || desktop[indexX][indexY + 2] == 4) {
                 desktop[indexX][indexY + 1] = 0
                 desktop[indexX][indexY + 2] = 3
-                iconDirection = "right"
-
+                playerDirection = "right"
             }
 
 
@@ -126,7 +124,8 @@ class Model {
             desktop[indexX][indexY] = 0
             indexY = indexY + 1
             desktop[indexX][indexY] = 1
-            iconDirection = "right"
+            playerDirection = "right"
+
 
         }
 
@@ -138,6 +137,7 @@ class Model {
             if (desktop[indexX][indexY - 2] == 0 || desktop[indexX][indexY - 2] == 4) {
                 desktop[indexX][indexY - 1] = 0
                 desktop[indexX][indexY - 2] = 3
+                playerDirection = "left"
 
             }
 
@@ -146,6 +146,7 @@ class Model {
             desktop[indexX][indexY] = 0
             indexY = indexY - 1
             desktop[indexX][indexY] = 1
+            playerDirection = "left"
 
         }
 
@@ -157,6 +158,8 @@ class Model {
             if (desktop[indexX + 2][indexY] == 0 || desktop[indexX + 2][indexY] == 4) {
                 desktop[indexX + 1][indexY] = 0
                 desktop[indexX + 2][indexY] = 3
+                playerDirection = "down"
+
 
             }
         }
@@ -164,6 +167,7 @@ class Model {
             desktop[indexX][indexY] = 0
             indexX = indexX + 1
             desktop[indexX][indexY] = 1
+            playerDirection = "down"
         }
 
 
@@ -174,6 +178,8 @@ class Model {
             if (desktop[indexX - 2][indexY] == 0 || desktop[indexX - 2][indexY] == 4) {
                 desktop[indexX - 1][indexY] = 0
                 desktop[indexX - 2][indexY] = 3
+                playerDirection = "up"
+
 
             }
 
@@ -182,6 +188,7 @@ class Model {
             desktop[indexX][indexY] = 0
             indexX = indexX - 1
             desktop[indexX][indexY] = 1
+            playerDirection = "up"
         }
 
 
@@ -211,10 +218,16 @@ class Model {
     }
 
     fun getIconDirection(): String {
-        return iconDirection
+        return playerDirection
     }
 
-   fun getCurrenLevel():Int{
-       return levels.getLevel()
-   }
+    fun getBoxPlace(): Boolean {
+        return boxPlace
+    }
+
+    fun getCurrenLevel(): Int {
+        return levels.getLevel()
+    }
+
+
 }

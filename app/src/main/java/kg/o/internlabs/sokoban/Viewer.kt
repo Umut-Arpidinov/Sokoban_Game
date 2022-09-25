@@ -23,22 +23,7 @@ class Viewer : AppCompatActivity {
         canvas = CanvasSokoban(this, model)
         setContentView(canvas)
         canvas?.setOnTouchListener(controller)
-
-
-
-
         println("I am viewer object")
-    }
-    fun showAlertDialog(){
-        val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("Finish level")
-            .setCancelable(false)
-            .setPositiveButton("Ok",controller)
-            .setNegativeButton("Cancel",DialogInterface.OnClickListener{
-                dialog,id -> finish()
-            })
-        val alert = dialogBuilder.create()
-        alert.show()
     }
 
 
@@ -47,5 +32,5 @@ class Viewer : AppCompatActivity {
     }
 
 
-
 }
+

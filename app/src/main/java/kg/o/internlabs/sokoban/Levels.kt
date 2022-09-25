@@ -25,12 +25,15 @@ class Levels {
     fun nextLevel(): Array<IntArray> {
         var desktop: Array<IntArray>
         when (level) {
-            1 -> desktop = getFirstLevel()
-            2 -> desktop = getSecondLevel()
-            3 -> desktop = getThirdLevel()
-            4 -> desktop = loadLevelFromFile(prefixFileName + level + endFileName, viewer)
-            5 ->  desktop = loadLevelFromFile(prefixFileName + level + endFileName, viewer)
-            6 -> desktop = loadLevelFromFile(prefixFileName + level + endFileName, viewer)
+            1 -> desktop = filterZeros(getFirstLevel())
+            2 -> desktop = filterZeros(getSecondLevel())
+            3 -> desktop = filterZeros(getThirdLevel())
+            4 -> desktop =
+                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+            5 -> desktop =
+                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+            6 -> desktop =
+                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
             else -> {
                 level = 1
                 desktop = getFirstLevel()
@@ -121,7 +124,7 @@ class Levels {
         return convertToArray(text)
     }
 
-    private fun convertToArray(text: String):Array<IntArray> {
+    private fun convertToArray(text: String): Array<IntArray> {
         var row = 0
         for (i in 0 until text.length) {
             val symbol = text[i]
@@ -129,7 +132,7 @@ class Levels {
                 row = row + 1
             }
         }
-        val array = Array(row,{IntArray(row)})
+        val array = Array(row, { IntArray(row) })
         var column = 0
         var indexRow = 0
         for (i in 0 until text.length) {
@@ -151,7 +154,7 @@ class Levels {
                 column = 0
             } else {
                 val number = ("" + symbol).toInt()
-                array[row]!![column] = number
+                array[row][column] = number
                 column = column + 1
             }
         }
@@ -159,6 +162,27 @@ class Levels {
 
     }
 
+    private fun filterZeros(array: Array<IntArray>): Array<IntArray> {
+        for (i in 0 until array.size) {
+            for (j in 0 until array[i].size) {
+                if (array[i][j] == 2) {
+                    break
+                } else {
+                    array[i][j] = 5
+                }
+                for (i in 0 until array.size) {
+                    for (j in array[i].size - 1 downTo 0) {
+                        if (array[i][j] == 2) {
+                            break
+                        } else {
+                            array[i][j] = 5
+                        }
+                    }
+                }
+            }
+        }
+        return array
+    }
 
     fun getLevel(): Int {
         return level - 1

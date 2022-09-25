@@ -70,6 +70,7 @@ class Controller : View.OnTouchListener,
     private fun onSwipeLeft() {
         model.move("Left")
 
+
     }
 
     private fun onSwipeUp() {
@@ -85,7 +86,7 @@ class Controller : View.OnTouchListener,
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-        viewer.update()
+
     }
 
 
