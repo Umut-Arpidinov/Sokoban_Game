@@ -4,14 +4,6 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 
-
-import android.util.Log
-import androidx.appcompat.app.AlertDialog
-import kg.o.internlabs.sokoban.Levels
-import kg.o.internlabs.sokoban.Viewer
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-
 class ConnectToServer : Thread {
     private var desktop: String?
     private val level: Int

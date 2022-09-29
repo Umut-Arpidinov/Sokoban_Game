@@ -1,8 +1,6 @@
 package kg.o.internlabs.sokoban
 
 import android.graphics.*
-import android.media.AudioManager
-import android.media.SoundPool
 import android.view.View
 
 
