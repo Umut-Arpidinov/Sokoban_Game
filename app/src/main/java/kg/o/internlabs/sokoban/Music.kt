@@ -1,9 +1,6 @@
 package kg.o.internlabs.sokoban
 
-import kg.o.internlabs.sokoban.Viewer
 import android.content.Context
-import android.content.res.AssetFileDescriptor
-import android.content.res.Resources
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.SoundPool
