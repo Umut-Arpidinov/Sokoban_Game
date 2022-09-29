@@ -1,6 +1,8 @@
 package kg.o.internlabs.sokoban
 
 import android.graphics.*
+import android.media.AudioManager
+import android.media.SoundPool
 import android.view.View
 
 
@@ -19,10 +21,12 @@ class CanvasSokoban : View {
     private val move_left: Bitmap
     private val move_down: Bitmap
     private val move_up: Bitmap
+    private lateinit var music: Music
 
 
     constructor(viewer: Viewer, model: Model) : super(viewer) {
         this.viewer = viewer
+        music = Music(viewer)
         this.model = model
         paint = Paint()
         println("I am CanvasSokoban")
@@ -62,7 +66,6 @@ class CanvasSokoban : View {
         var height = 140
         val desktop = model.getDesktop()
         var iconDirection = model.getIconDirection()
-        var boxPlace = model.getBoxPlace()
         for (i in 0 until desktop.size) {
             for (j in 0 until desktop[i].size) {
                 if (desktop[i][j] == 0 || desktop[i][j] == 3 || desktop[i][j] == 4 || desktop[i][j] == 2 || desktop[i][j] == 1) {
@@ -72,32 +75,40 @@ class CanvasSokoban : View {
                 if (desktop[i][j] == 1) {
                     if (iconDirection == "stay") {
                         canvas.drawBitmap(player, null, Rect(x, y, x + width, y + height), paint)
-                        println(iconDirection)
 
                     }
                     if (iconDirection == "right") {
+
+                        music.playStepSound()
                         canvas.drawBitmap(
                             move_right,
                             null,
                             Rect(x, y, x + width, y + height),
                             paint
                         )
-                        println(iconDirection)
+
+
+
 
                     }
                     if (iconDirection == "down") {
+                        music.playStepSound()
                         canvas.drawBitmap(move_down, null, Rect(x, y, x + width, y + height), paint)
-                        println(iconDirection)
+
 
                     }
                     if (iconDirection == "up") {
+                        music.playStepSound()
                         canvas.drawBitmap(move_up, null, Rect(x, y, x + width, y + height), paint)
-                        println(iconDirection)
+
+
 
                     }
                     if (iconDirection == "left") {
+                        music.playStepSound()
                         canvas.drawBitmap(move_left, null, Rect(x, y, x + width, y + height), paint)
-                        println(iconDirection)
+
+
                     }
                 }
 
@@ -108,6 +119,7 @@ class CanvasSokoban : View {
                 }
                 if (desktop[i][j] == 3) {
                     canvas.drawBitmap(box, null, Rect(x, y, x + width, y + height), paint)
+
                 }
                 if (desktop[i][j] == 4) {
                     canvas.drawBitmap(target, null, Rect(x, y, x + width, y + height), paint)

@@ -13,7 +13,6 @@ class Controller : View.OnTouchListener,
     private val viewer: Viewer
     private val levels: Levels
 
-
     constructor(viewer: Viewer) {
         this.viewer = viewer
         model = Model(viewer)
@@ -45,16 +44,20 @@ class Controller : View.OnTouchListener,
             if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (diffX > 0) {
                     onSwipeRight()
+
                 } else {
                     onSwipeLeft()
+
                 }
             }
         } else {
             if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                 if (diffY > 0) {
                     onSwipeDown()
+
                 } else {
                     onSwipeUp()
+
                 }
             }
         }
@@ -87,6 +90,10 @@ class Controller : View.OnTouchListener,
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
 
+    }
+
+    fun chooseLevel(level: Int) {
+        model.newLevel(level)
     }
 
 

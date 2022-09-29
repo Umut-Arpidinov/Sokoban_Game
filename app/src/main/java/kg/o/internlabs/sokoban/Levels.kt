@@ -1,5 +1,6 @@
 package kg.o.internlabs.sokoban
 
+import ConnectToServer
 import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.view.View
@@ -7,22 +8,22 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.net.ConnectException
+import java.util.*
 
 class Levels {
     private var prefixFileName: String
     private var endFileName: String
-    private var level: Int
     private val viewer: Viewer
+
 
     constructor(viewer: Viewer) {
         this.viewer = viewer
         prefixFileName = "level"
         endFileName = ".sok"
-        level = 1
     }
 
-
-    fun nextLevel(): Array<IntArray> {
+    fun nextLevel(level: Int): Array<IntArray> {
         var desktop: Array<IntArray>
         when (level) {
             1 -> desktop = filterZeros(getFirstLevel())
@@ -34,13 +35,18 @@ class Levels {
                 filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
             6 -> desktop =
                 filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+            7 -> desktop =
+                filterZeros(loadLevelFromServer(level))
+            8 -> desktop =
+                filterZeros(loadLevelFromServer(level))
+
+            9 -> desktop =
+                filterZeros(loadLevelFromServer(level))
             else -> {
-                level = 1
-                desktop = getFirstLevel()
+                desktop = filterZeros(getFirstLevel())
             }
 
         }
-        level = level + 1
         return desktop
     }
 
@@ -94,28 +100,30 @@ class Levels {
 
         var fileInputStream: InputStream = context.assets.open(filename)
         var size = fileInputStream.available()
-        var array: CharArray = CharArray(size)
+        var array: CharArray? = CharArray(size)
         try {
             var unicode: Int
             var index = 0
             while (fileInputStream.read().also { unicode = it } != -1) {
                 val symbol = unicode.toChar()
                 if ('0' <= symbol && symbol <= '4') {
-                    array[index] = symbol
+                    array!![index] = symbol
                     index = index + 1
                 } else if (symbol == '\n') {
-                    array[index] = 'A'
+                    array!![index] = 'A'
                     index += 1
                 }
 
             }
-            if (array[index] != '\n') {
-                array[index] = 'A'
+            if (array!![index] != '\n') {
+                array!![index] = 'A'
                 index = index + 1
             }
             text = String(array, 0, index)
-            return convertToArray(text)
+            array = null
             fileInputStream.close()
+            return convertToArray(text)
+
 
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
@@ -125,6 +133,7 @@ class Levels {
     }
 
     private fun convertToArray(text: String): Array<IntArray> {
+
         var row = 0
         for (i in 0 until text.length) {
             val symbol = text[i]
@@ -184,7 +193,28 @@ class Levels {
         return array
     }
 
-    fun getLevel(): Int {
-        return level - 1
+
+    private fun loadLevelFromServer(level: Int): Array<IntArray> {
+        var desktop: String?
+        val server: ConnectToServer = ConnectToServer(level)
+        server.go()
+        desktop = server.getMap()
+
+        return convertToArray(desktop!!)
+
     }
+    /* private fun loadLevelFromServer(level: Int, callback: (Array<IntArray>) -> Unit) {
+         this.level = level
+         val socket = ConnectToServer{
+
+             val desktop = convertToArray(it)
+             callback(desktop)
+         }
+         socket.go()
+
+     }*/
+
+
+
+
 }

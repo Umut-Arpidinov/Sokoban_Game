@@ -1,5 +1,10 @@
 package kg.o.internlabs.sokoban
 
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.media.SoundPool
+import java.util.*
+
 class Model {
     private val viewer: Viewer
     private var indexX: Int
@@ -8,23 +13,25 @@ class Model {
     private lateinit var arrayOfIndexes: Array<IntArray>
     private var stateModel: Boolean
     private var playerDirection = "stay"
-    private var boxPlace = false
     private var levels: Levels
+    private var level: Int = 1
+
 
     constructor(viewer: Viewer) {
         this.viewer = viewer
         indexY = 0
+        // Problem is cannot pass viewer as a parameter because it is creating in the last stack
         indexX = 0
-        desktop = getDesktop()
         stateModel = true
         levels = Levels(viewer)
+        desktop = levels.nextLevel(level)
         initialization()
+        println("I am model ")
 
     }
 
 
     private fun initialization() {
-        desktop = levels.nextLevel()
         var countFour = 0
         var countOne = 0
         var countThree = 0
@@ -70,7 +77,6 @@ class Model {
 
         }
         check()
-        printDesktop()
         viewer.update()
         won()
 
@@ -89,6 +95,8 @@ class Model {
         }
         if (won) {
             playerDirection = "stay"
+            level = level + 1
+            newLevel(level)
             initialization()
             viewer.update()
 
@@ -99,7 +107,6 @@ class Model {
         for (j in 0 until arrayOfIndexes[0].size) {
             var x = arrayOfIndexes[0][j]
             var y = arrayOfIndexes[1][j]
-            println("${j + 1}  $x  $y")
             if (desktop[x][y] == 0) {
                 desktop[x][y] = 4
 
@@ -108,13 +115,20 @@ class Model {
         println()
     }
 
-
     private fun moveRight() {
         if (desktop[indexX][indexY + 1] == 3) {
-            if (desktop[indexX][indexY + 2] == 0 || desktop[indexX][indexY + 2] == 4) {
+            if (desktop[indexX][indexY + 2] == 0) {
                 desktop[indexX][indexY + 1] = 0
                 desktop[indexX][indexY + 2] = 3
                 playerDirection = "right"
+
+            }
+            if (desktop[indexX][indexY + 2] == 4) {
+                desktop[indexX][indexY + 1] = 0
+                desktop[indexX][indexY + 2] = 3
+                playerDirection = "right"
+
+
             }
 
 
@@ -148,6 +162,7 @@ class Model {
             desktop[indexX][indexY] = 1
             playerDirection = "left"
 
+
         }
 
 
@@ -168,6 +183,7 @@ class Model {
             indexX = indexX + 1
             desktop[indexX][indexY] = 1
             playerDirection = "down"
+
         }
 
 
@@ -189,23 +205,17 @@ class Model {
             indexX = indexX - 1
             desktop[indexX][indexY] = 1
             playerDirection = "up"
+
         }
 
 
     }
 
-
-    private fun printDesktop() {
-        for (i in 0 until desktop.size) {
-
-            for (j in 0 until desktop[i].size) {
-                print(desktop[i][j])
-            }
-            println()
-        }
-        println()
-        println()
-        println("---------------------------------")
+    fun newLevel(level: Int) {
+        desktop = levels.nextLevel(level)
+        this.level = level
+        initialization()
+        viewer.update()
     }
 
 
@@ -221,13 +231,11 @@ class Model {
         return playerDirection
     }
 
-    fun getBoxPlace(): Boolean {
-        return boxPlace
-    }
 
     fun getCurrenLevel(): Int {
-        return levels.getLevel()
+        return level
     }
+
 
 
 }
