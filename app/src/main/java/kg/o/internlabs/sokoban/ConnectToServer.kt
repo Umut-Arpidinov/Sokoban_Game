@@ -4,6 +4,9 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 
+
+
+
 class ConnectToServer : Thread {
     private var desktop: String?
     private val level: Int

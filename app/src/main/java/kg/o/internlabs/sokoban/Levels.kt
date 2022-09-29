@@ -10,12 +10,11 @@ class Levels {
     private var prefixFileName: String
     private var endFileName: String
     private val viewer: Viewer
-
-
     constructor(viewer: Viewer) {
         this.viewer = viewer
         prefixFileName = "level"
         endFileName = ".sok"
+
     }
 
     fun nextLevel(level: Int): Array<IntArray> {
@@ -194,9 +193,8 @@ class Levels {
         val server: ConnectToServer = ConnectToServer(level)
         server.go()
         desktop = server.getMap()
-
         return convertToArray(desktop!!)
+        }
 
-    }
 
 }

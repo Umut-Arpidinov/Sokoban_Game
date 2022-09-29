@@ -250,6 +250,4 @@ class Model {
         return level
     }
 
-
-
 }
