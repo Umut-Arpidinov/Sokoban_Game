@@ -20,7 +20,7 @@ class Music(context: Context) {
         soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
         stepSound = soundPool.load(context, R.raw.pushbox, 1)
         mediaPlayer = MediaPlayer.create(context, R.raw.theme_song)
-        boxOnTargetSound = soundPool.load(context, R.raw.coin, 1)
+        boxOnTargetSound = soundPool.load(context, R.raw.success, 1)
     }
 
     fun playStepSound() {
@@ -32,7 +32,7 @@ class Music(context: Context) {
         mediaPlayer.setVolume(0.5f, 0.5f)
     }
 
-    fun playCoin() {
+    fun playSuccess() {
         soundPool.play(boxOnTargetSound, 1F, 1F, 0, 0, 2F)
     }
 

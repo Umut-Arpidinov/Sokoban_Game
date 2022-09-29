@@ -65,6 +65,11 @@ class Viewer : AppCompatActivity {
         })
     }
 
+    fun showWindDialog(){
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage("")
+    }
+
 
     fun update() {
         canvas?.update()

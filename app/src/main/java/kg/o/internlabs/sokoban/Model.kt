@@ -88,7 +88,7 @@ class Model {
         for (i in 0 until arrayOfIndexes[0].size) {
             var x = arrayOfIndexes[0][i]
             var y = arrayOfIndexes[1][i]
-            if (desktop[x][y] != 3) {
+            if (desktop[x][y] != 7) {
                 won = false
                 break
             }
@@ -116,7 +116,7 @@ class Model {
     }
 
     private fun moveRight() {
-        if (desktop[indexX][indexY + 1] == 3) {
+        if (desktop[indexX][indexY + 1] == 3 ||desktop[indexX][indexY + 1] == 7 ) {
             if (desktop[indexX][indexY + 2] == 0) {
                 desktop[indexX][indexY + 1] = 0
                 desktop[indexX][indexY + 2] = 3
@@ -125,7 +125,7 @@ class Model {
             }
             if (desktop[indexX][indexY + 2] == 4) {
                 desktop[indexX][indexY + 1] = 0
-                desktop[indexX][indexY + 2] = 3
+                desktop[indexX][indexY + 2] = 7
                 playerDirection = "right"
 
 
@@ -147,12 +147,16 @@ class Model {
     }
 
     private fun moveLeft() {
-        if (desktop[indexX][indexY - 1] == 3) {
-            if (desktop[indexX][indexY - 2] == 0 || desktop[indexX][indexY - 2] == 4) {
+        if (desktop[indexX][indexY - 1] == 3 || desktop[indexX][indexY - 1] == 7) {
+            if (desktop[indexX][indexY - 2] == 0 ) {
                 desktop[indexX][indexY - 1] = 0
                 desktop[indexX][indexY - 2] = 3
                 playerDirection = "left"
-
+            }
+            if (desktop[indexX][indexY - 2] == 4){
+                desktop[indexX][indexY - 1] = 0
+                desktop[indexX][indexY - 2] = 7
+                playerDirection = "left"
             }
 
         }
@@ -169,14 +173,19 @@ class Model {
     }
 
     private fun moveDown() {
-        if (desktop[indexX + 1][indexY] == 3) {
-            if (desktop[indexX + 2][indexY] == 0 || desktop[indexX + 2][indexY] == 4) {
+        if (desktop[indexX + 1][indexY] == 3 || desktop[indexX + 1][indexY] == 7) {
+            if (desktop[indexX + 2][indexY] == 0) {
                 desktop[indexX + 1][indexY] = 0
                 desktop[indexX + 2][indexY] = 3
                 playerDirection = "down"
-
-
             }
+            if(desktop[indexX + 2][indexY] == 4){
+                desktop[indexX + 1][indexY] = 0
+                desktop[indexX + 2][indexY] = 7
+                playerDirection = "down"
+            }
+
+
         }
         if (desktop[indexX + 1][indexY] == 0 || desktop[indexX + 1][indexY] == 4) {
             desktop[indexX][indexY] = 0
@@ -190,14 +199,18 @@ class Model {
     }
 
     private fun moveUp() {
-        if (desktop[indexX - 1][indexY] == 3) {
-            if (desktop[indexX - 2][indexY] == 0 || desktop[indexX - 2][indexY] == 4) {
+        if (desktop[indexX - 1][indexY] == 3 || desktop[indexX - 1][indexY] == 7) {
+            if (desktop[indexX - 2][indexY] == 0) {
                 desktop[indexX - 1][indexY] = 0
                 desktop[indexX - 2][indexY] = 3
                 playerDirection = "up"
-
-
             }
+            if(desktop[indexX - 2][indexY] == 4)  {
+                desktop[indexX - 1][indexY] = 0
+                desktop[indexX - 2][indexY] = 7
+                playerDirection = "up"
+            }
+
 
         }
         if (desktop[indexX - 1][indexY] == 0 || desktop[indexX - 1][indexY] == 4) {
