@@ -1,10 +1,5 @@
 package kg.o.internlabs.sokoban
 
-import android.media.AudioManager
-import android.media.MediaPlayer
-import android.media.SoundPool
-import java.util.*
-
 class Model {
     private val viewer: Viewer
     private var indexX: Int
@@ -20,7 +15,6 @@ class Model {
     constructor(viewer: Viewer) {
         this.viewer = viewer
         indexY = 0
-        // Problem is cannot pass viewer as a parameter because it is creating in the last stack
         indexX = 0
         stateModel = true
         levels = Levels(viewer)
@@ -94,6 +88,7 @@ class Model {
             }
         }
         if (won) {
+            viewer.showWindDialog()
             playerDirection = "stay"
             level = level + 1
             newLevel(level)
