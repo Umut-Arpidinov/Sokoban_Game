@@ -1,10 +1,5 @@
 package kg.o.internlabs.sokoban
 
-import android.media.AudioManager
-import android.media.MediaPlayer
-import android.media.SoundPool
-import java.util.*
-
 class Model {
     private val viewer: Viewer
     private var indexX: Int
@@ -95,7 +90,13 @@ class Model {
         }
         if (won) {
             playerDirection = "stay"
-            level = level + 1
+            if(level<9){
+                level = level + 1
+            }
+            else{
+                level = 1
+            }
+
             newLevel(level)
             initialization()
             viewer.update()

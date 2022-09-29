@@ -2,14 +2,9 @@ package kg.o.internlabs.sokoban
 
 import ConnectToServer
 import android.content.Context
-import android.content.res.AssetFileDescriptor
-import android.view.View
-import java.io.BufferedReader
+
 import java.io.FileNotFoundException
 import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.ConnectException
-import java.util.*
 
 class Levels {
     private var prefixFileName: String
@@ -213,8 +208,6 @@ class Levels {
          socket.go()
 
      }*/
-
-
 
 
 }
