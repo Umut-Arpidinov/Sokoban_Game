@@ -198,18 +198,5 @@ class Levels {
         return convertToArray(desktop!!)
 
     }
-    /* private fun loadLevelFromServer(level: Int, callback: (Array<IntArray>) -> Unit) {
-         this.level = level
-         val socket = ConnectToServer{
-
-             val desktop = convertToArray(it)
-             callback(desktop)
-         }
-         socket.go()
-
-     }*/
-
-
-
 
 }

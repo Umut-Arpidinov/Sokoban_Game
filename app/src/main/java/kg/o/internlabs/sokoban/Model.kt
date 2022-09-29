@@ -15,7 +15,6 @@ class Model {
     constructor(viewer: Viewer) {
         this.viewer = viewer
         indexY = 0
-        // Problem is cannot pass viewer as a parameter because it is creating in the last stack
         indexX = 0
         stateModel = true
         levels = Levels(viewer)
@@ -89,6 +88,7 @@ class Model {
             }
         }
         if (won) {
+            viewer.showWindDialog()
             playerDirection = "stay"
             if(level<9){
                 level = level + 1

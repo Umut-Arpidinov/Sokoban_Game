@@ -65,7 +65,15 @@ class Viewer : AppCompatActivity {
 
     fun showWindDialog(){
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("")
+        dialogBuilder.setMessage("Congratulations! You WON!")
+            .setCancelable(false)
+            .setPositiveButton("Next level",DialogInterface.OnClickListener{
+                    dialog, id -> dialog.cancel()
+            })
+
+        val alert = dialogBuilder.create()
+        alert.setTitle("End of level")
+        alert.show()
     }
 
 
