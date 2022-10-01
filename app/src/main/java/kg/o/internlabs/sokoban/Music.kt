@@ -6,7 +6,7 @@ import android.media.MediaPlayer
 import android.media.SoundPool
 
 
-class Music (context: Context){
+class Music(context: Context) {
 
     private val soundPool: SoundPool
     private var mediaPlayer: MediaPlayer
@@ -21,7 +21,7 @@ class Music (context: Context){
         mediaPlayer = MediaPlayer.create(context, R.raw.theme_song)
         boxOnTargetSound = soundPool.load(context, R.raw.success, 1)
         finsishLevel = soundPool.load(context, R.raw.sucesslong, 1)
-        connectionError = soundPool.load(context,R.raw.windows_xp_error,1)
+        connectionError = soundPool.load(context, R.raw.windows_xp_error, 1)
         println("I am music ")
     }
 
@@ -45,8 +45,9 @@ class Music (context: Context){
     fun playFinsishLevel() {
         soundPool.play(finsishLevel, 1F, 1F, 0, 0, 1F)
     }
-    fun playError(){
-        soundPool.play(connectionError,1F,1F,0,0,1F)
+
+    fun playError() {
+        soundPool.play(connectionError, 1F, 1F, 0, 0, 1F)
     }
 }
 

@@ -26,6 +26,7 @@ class Viewer : AppCompatActivity {
         music = Music(this)
         setContentView(canvas)
         canvas?.setOnTouchListener(controller)
+        music.playSong()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,9 +57,7 @@ class Viewer : AppCompatActivity {
     fun showNoConnectionError() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage("Sorry, couldn't connect to the server.\nTry it later.")
-            .setCancelable(false)
-            .setPositiveButton(
-                "Ok",
+            .setCancelable(false).setPositiveButton("Ok",
                 DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("connection") })
         val alert = dialogBuilder.create()
         alert.setTitle("Connection Error")
@@ -69,10 +68,8 @@ class Viewer : AppCompatActivity {
 
     fun showWindDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("Congratulations! You WON!")
-            .setCancelable(false)
-            .setPositiveButton(
-                "Next level",
+        dialogBuilder.setMessage("Congratulations! You WON!").setCancelable(false)
+            .setPositiveButton("Next level",
                 DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("update") })
         val alert = dialogBuilder.create()
         alert.setTitle("End of the level")
@@ -83,9 +80,7 @@ class Viewer : AppCompatActivity {
     fun showEndOfGame() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage("Congratulations! You solved all levels!\nPress ok to restart.")
-            .setCancelable(false)
-            .setPositiveButton(
-                "Ok",
+            .setCancelable(false).setPositiveButton("Ok",
                 DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("end") })
         val alert = dialogBuilder.create()
         alert.setTitle("End of game")
