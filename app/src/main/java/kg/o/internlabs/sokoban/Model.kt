@@ -1,5 +1,9 @@
 package kg.o.internlabs.sokoban
 
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.media.SoundPool
+
 class Model {
     private val viewer: Viewer
     private var indexX: Int
@@ -11,7 +15,6 @@ class Model {
     private var levels: Levels
     private var level: Int = 1
 
-
     constructor(viewer: Viewer) {
         this.viewer = viewer
         indexY = 0
@@ -20,7 +23,6 @@ class Model {
         levels = Levels(viewer)
         desktop = levels.nextLevel(level)
         initialization()
-        println("I am model ")
 
     }
 
@@ -61,6 +63,15 @@ class Model {
         }
     }
 
+    fun newLevel(level: Int) {
+        desktop = levels.nextLevel(level)
+        this.level = levels.getCurrenLevel()
+        playerDirection = "stay"
+        initialization()
+        viewer.update()
+
+    }
+
     fun move(direction: String) {
         when (direction) {
             "Right" -> moveRight()
@@ -73,7 +84,6 @@ class Model {
         check()
         viewer.update()
         won()
-
 
     }
 
@@ -89,20 +99,35 @@ class Model {
         }
         if (won) {
             viewer.showWindDialog()
-            playerDirection = "stay"
-            if(level<9){
-                level = level + 1
-            }
-            else{
-                level = 1
-            }
-
-            newLevel(level)
-            initialization()
-            viewer.update()
-
         }
     }
+
+
+    private fun updateAfterWon() {
+        playerDirection = "stay"
+        if (level < 9) {
+            level = level + 1
+        } else {
+            viewer.showEndOfGame()
+            level = 1
+        }
+        newLevel(level)
+        initialization()
+        viewer.update()
+    }
+
+    fun getAlertDialogFromController(goal: String) {
+        if (goal == "connection") {
+            newLevel(1)
+        }
+        if (goal == "update") {
+            updateAfterWon()
+        }
+        if (goal == "end") {
+            newLevel(1)
+        }
+    }
+
 
     private fun check() {
         for (j in 0 until arrayOfIndexes[0].size) {
@@ -110,14 +135,13 @@ class Model {
             var y = arrayOfIndexes[1][j]
             if (desktop[x][y] == 0) {
                 desktop[x][y] = 4
-
             }
         }
         println()
     }
 
     private fun moveRight() {
-        if (desktop[indexX][indexY + 1] == 3 ||desktop[indexX][indexY + 1] == 7 ) {
+        if (desktop[indexX][indexY + 1] == 3 || desktop[indexX][indexY + 1] == 7) {
             if (desktop[indexX][indexY + 2] == 0) {
                 desktop[indexX][indexY + 1] = 0
                 desktop[indexX][indexY + 2] = 3
@@ -149,12 +173,12 @@ class Model {
 
     private fun moveLeft() {
         if (desktop[indexX][indexY - 1] == 3 || desktop[indexX][indexY - 1] == 7) {
-            if (desktop[indexX][indexY - 2] == 0 ) {
+            if (desktop[indexX][indexY - 2] == 0) {
                 desktop[indexX][indexY - 1] = 0
                 desktop[indexX][indexY - 2] = 3
                 playerDirection = "left"
             }
-            if (desktop[indexX][indexY - 2] == 4){
+            if (desktop[indexX][indexY - 2] == 4) {
                 desktop[indexX][indexY - 1] = 0
                 desktop[indexX][indexY - 2] = 7
                 playerDirection = "left"
@@ -180,7 +204,7 @@ class Model {
                 desktop[indexX + 2][indexY] = 3
                 playerDirection = "down"
             }
-            if(desktop[indexX + 2][indexY] == 4){
+            if (desktop[indexX + 2][indexY] == 4) {
                 desktop[indexX + 1][indexY] = 0
                 desktop[indexX + 2][indexY] = 7
                 playerDirection = "down"
@@ -206,7 +230,7 @@ class Model {
                 desktop[indexX - 2][indexY] = 3
                 playerDirection = "up"
             }
-            if(desktop[indexX - 2][indexY] == 4)  {
+            if (desktop[indexX - 2][indexY] == 4) {
                 desktop[indexX - 1][indexY] = 0
                 desktop[indexX - 2][indexY] = 7
                 playerDirection = "up"
@@ -225,13 +249,6 @@ class Model {
 
     }
 
-    fun newLevel(level: Int) {
-        desktop = levels.nextLevel(level)
-        this.level = level
-        initialization()
-        viewer.update()
-    }
-
 
     fun getStateModel(): Boolean {
         return stateModel
@@ -247,7 +264,8 @@ class Model {
 
 
     fun getCurrenLevel(): Int {
-        return level
+        return levels.getCurrenLevel()
     }
+
 
 }

@@ -10,32 +10,83 @@ class Levels {
     private var prefixFileName: String
     private var endFileName: String
     private val viewer: Viewer
+    private var desktop: String?
+    private var level: Int = 1
+
     constructor(viewer: Viewer) {
         this.viewer = viewer
         prefixFileName = "level"
         endFileName = ".sok"
-
+        desktop = "default"
+        println("I am level")
     }
 
     fun nextLevel(level: Int): Array<IntArray> {
         var desktop: Array<IntArray>
         when (level) {
-            1 -> desktop = filterZeros(getFirstLevel())
-            2 -> desktop = filterZeros(getSecondLevel())
-            3 -> desktop = filterZeros(getThirdLevel())
-            4 -> desktop =
-                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
-            5 -> desktop =
-                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
-            6 -> desktop =
-                filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
-            7 -> desktop =
-                filterZeros(loadLevelFromServer(level))
-            8 -> desktop =
-                filterZeros(loadLevelFromServer(level))
+            1 -> {
+                desktop = filterZeros(getFirstLevel())
+                this.level = level
+            }
+            2 -> {
+                desktop = filterZeros(getSecondLevel())
+                this.level = level
+            }
+            3 -> {
+                desktop = filterZeros(getThirdLevel())
+                this.level = level
+            }
+            4 -> {
+                desktop =
+                    filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+                this.level = level
 
-            9 -> desktop =
-                filterZeros(loadLevelFromServer(level))
+            }
+            5 -> {
+                desktop =
+                    filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+                this.level = level
+            }
+            6 -> {
+                desktop =
+                    filterZeros(loadLevelFromFile(prefixFileName + level + endFileName, viewer))
+                this.level = level
+            }
+            7 -> {
+
+                if (loadLevelFromServer(7) == null) {
+                    desktop = filterZeros(getFirstLevel())
+                    this.level = 1
+                } else {
+                    desktop =
+                        filterZeros(loadLevelFromServer(level)!!)
+                    this.level = level
+                }
+
+            }
+            8 -> {
+                if (loadLevelFromServer(7) == null) {
+                    desktop = filterZeros(getFirstLevel())
+                    this.level = 1
+                } else {
+                    desktop =
+                        filterZeros(loadLevelFromServer(level)!!)
+                    this.level = level
+                }
+
+            }
+
+            9 -> {
+                if (loadLevelFromServer(7) == null) {
+                    desktop = filterZeros(getFirstLevel())
+                    this.level = 1
+                } else {
+                    desktop =
+                        filterZeros(loadLevelFromServer(level)!!)
+                    this.level = level
+                }
+
+            }
             else -> {
                 desktop = filterZeros(getFirstLevel())
             }
@@ -188,13 +239,22 @@ class Levels {
     }
 
 
-    private fun loadLevelFromServer(level: Int): Array<IntArray> {
-        var desktop: String?
+    private fun loadLevelFromServer(level: Int): Array<IntArray>? {
         val server: ConnectToServer = ConnectToServer(level)
         server.go()
         desktop = server.getMap()
-        return convertToArray(desktop!!)
+        if (desktop != null) {
+            return convertToArray(desktop!!)
+        } else {
+            viewer.showNoConnectionError()
+            return null
         }
 
+    }
+
+
+    fun getCurrenLevel(): Int {
+        return level
+    }
 
 }

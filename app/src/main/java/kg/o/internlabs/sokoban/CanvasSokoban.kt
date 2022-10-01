@@ -19,7 +19,7 @@ class CanvasSokoban : View {
     private val move_left: Bitmap
     private val move_down: Bitmap
     private val move_up: Bitmap
-    private lateinit var music: Music
+    private var music: Music
 
 
     constructor(viewer: Viewer, model: Model) : super(viewer) {
@@ -27,7 +27,6 @@ class CanvasSokoban : View {
         music = Music(viewer)
         this.model = model
         paint = Paint()
-        println("I am CanvasSokoban")
         player = BitmapFactory.decodeResource(resources, R.drawable.player)
         wall = BitmapFactory.decodeResource(resources, R.drawable.wall)
         box = BitmapFactory.decodeResource(resources, R.drawable.box)
@@ -57,7 +56,6 @@ class CanvasSokoban : View {
     }
 
     fun drawContenGame(canvas: Canvas) {
-        var a = 0
         var x = 0
         var y = 200
         var width = 108
@@ -66,7 +64,7 @@ class CanvasSokoban : View {
         var iconDirection = model.getIconDirection()
         for (i in 0 until desktop.size) {
             for (j in 0 until desktop[i].size) {
-                if (desktop[i][j] == 0 || desktop[i][j] == 3 || desktop[i][j] == 4 || desktop[i][j] == 2 || desktop[i][j] == 1 || desktop[i][j] == 7 ) {
+                if (desktop[i][j] == 0 || desktop[i][j] == 3 || desktop[i][j] == 4 || desktop[i][j] == 2 || desktop[i][j] == 1 || desktop[i][j] == 7) {
                     canvas.drawBitmap(ground, null, Rect(x, y, x + width, y + height), paint)
                 }
 
@@ -76,7 +74,6 @@ class CanvasSokoban : View {
 
                     }
                     if (iconDirection == "right") {
-
                         music.playStepSound()
                         canvas.drawBitmap(
                             move_right,
@@ -84,8 +81,6 @@ class CanvasSokoban : View {
                             Rect(x, y, x + width, y + height),
                             paint
                         )
-
-
 
 
                     }
@@ -98,7 +93,6 @@ class CanvasSokoban : View {
                     if (iconDirection == "up") {
                         music.playStepSound()
                         canvas.drawBitmap(move_up, null, Rect(x, y, x + width, y + height), paint)
-
 
 
                     }
@@ -146,6 +140,7 @@ class CanvasSokoban : View {
 
 
     private fun drawError(canvas: Canvas) {
+        music.stopSong()
         paint.setColor(Color.RED)
         paint.textSize = 100F
         paint.setTypeface(Typeface.DEFAULT_BOLD)

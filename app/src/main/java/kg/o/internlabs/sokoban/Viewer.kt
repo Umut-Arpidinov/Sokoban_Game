@@ -26,18 +26,16 @@ class Viewer : AppCompatActivity {
         music = Music(this)
         setContentView(canvas)
         canvas?.setOnTouchListener(controller)
-        music.playSong()
-        println("I am viewer object")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.menu,menu)
+        inflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.level1 -> controller.chooseLevel(1)
             R.id.level2 -> controller.chooseLevel(2)
             R.id.level3 -> controller.chooseLevel(3)
@@ -48,34 +46,53 @@ class Viewer : AppCompatActivity {
             R.id.level8 -> controller.chooseLevel(8)
             R.id.level9 -> controller.chooseLevel(9)
             R.id.startmusic -> music.playSong()
-            R.id.stopmusic ->music.stopSong()
+            R.id.stopmusic -> music.stopSong()
 
         }
         return super.onOptionsItemSelected(item)
 
     }
-    fun showNoConnectionError(){
-        val dialog = AlertDialog.Builder(this)
-        dialog.setMessage("Couldn't connect to server")
-        dialog.setCancelable(false)
-        dialog.setPositiveButton("Return to first level",DialogInterface.OnClickListener{
-            dialog, which ->  finish()
-        })
+
+    fun showNoConnectionError() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage("Sorry, couldn't connect to the server.\nTry it later.")
+            .setCancelable(false)
+            .setPositiveButton(
+                "Ok",
+                DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("connection") })
+        val alert = dialogBuilder.create()
+        alert.setTitle("Connection Error")
+        alert.show()
+        music.stopSong()
+        music.playError()
     }
 
-    fun showWindDialog(){
+    fun showWindDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage("Congratulations! You WON!")
             .setCancelable(false)
-            .setPositiveButton("Next level",DialogInterface.OnClickListener{
-                    dialog, id -> dialog.cancel()
-            })
-
+            .setPositiveButton(
+                "Next level",
+                DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("update") })
         val alert = dialogBuilder.create()
-        alert.setTitle("End of level")
+        alert.setTitle("End of the level")
         alert.show()
+        music.playSuccess()
     }
 
+    fun showEndOfGame() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage("Congratulations! You solved all levels!\nPress ok to restart.")
+            .setCancelable(false)
+            .setPositiveButton(
+                "Ok",
+                DialogInterface.OnClickListener { dialog, which -> controller.sendToModel("end") })
+        val alert = dialogBuilder.create()
+        alert.setTitle("End of game")
+        alert.show()
+        music.stopSong()
+        music.playFinsishLevel()
+    }
 
     fun update() {
         canvas?.update()

@@ -18,7 +18,6 @@ class Controller : View.OnTouchListener,
         model = Model(viewer)
         levels = Levels(viewer)
         gestureDetector = GestureDetector(this)
-        println("I am controller object")
     }
 
     fun getModel(): Model {
@@ -91,6 +90,11 @@ class Controller : View.OnTouchListener,
     override fun onClick(dialog: DialogInterface?, which: Int) {
 
     }
+
+    fun sendToModel(goal: String) {
+        model.getAlertDialogFromController(goal)
+    }
+
 
     fun chooseLevel(level: Int) {
         model.newLevel(level)
