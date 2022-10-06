@@ -145,7 +145,7 @@ class Levels {
 
         var fileInputStream: InputStream = context.assets.open(filename)
         var size = fileInputStream.available()
-        var array: CharArray? = CharArray(size)
+        var array: CharArray? = CharArray(size+1)
         try {
             var unicode: Int
             var index = 0
